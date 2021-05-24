@@ -1,45 +1,33 @@
-import logo from "./logo.svg";
-import "./App.css";
-import React, { useState } from "react";
-import Sidebar from "react-sidebar";
-import ListGroup from "react-bootstrap/ListGroup";
-import Navbar from "react-bootstrap/Navbar";
-import ClippedDrawer from "./components/ResponsiveDrawer";
+import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import {
+  BrowserRouter as Router,
+} from "react-router-dom";
+import {Navbar} from "./components/pages/core/Navbar"
+import {NavDrawer} from "./components/pages/core/NavDrawer"
+import {Canvas} from "./components/pages/core/Canvas"
+import { makeStyles } from "@material-ui/core";
 
-function App() {
-  const [sideBarOpen, setSideBarOpen] = useState(true);
+const useStyles = makeStyles((theme)=>({
+  root: {
+    display: "flex",
+  }
+}))
+
+
+const App = () => {
+  const classes = useStyles()
   return (
-    <>
-      <ClippedDrawer />
-      {/* <div className="App">
-        <div className="Header"></div>
-        <div>
-          <Sidebar
-            sidebar={
-              <ListGroup>
-                <ListGroup.Item className="Main-List">
-                  <text>Dashboard</text>
-                </ListGroup.Item>
-                <ListGroup.Item className="Main-List"> Patients</ListGroup.Item>
-                <ListGroup.Item className="Sub-List">
-                  My Patients
-                </ListGroup.Item>
-                <ListGroup.Item className="Sub-List">Alerts</ListGroup.Item>
-                <ListGroup.Item className="Main-List">Profile</ListGroup.Item>
-                <ListGroup.Item className="Sub-List">
-                  Update Profile
-                </ListGroup.Item>
-              </ListGroup>
-            }
-            open={sideBarOpen}
-            onSetOpen={setSideBarOpen}
-            docked={true}
-            styles={{ sidebar: { background: "white" } }}
-          ></Sidebar>
-        </div>
-      </div> */}
-    </>
+    <Router>
+      <div className={classes.root}>
+        <CssBaseline />
+        <Navbar/>
+
+          <NavDrawer/>
+        <Canvas/>
+      </div>
+    </Router>
   );
 }
 
-export default App;
+export default App
