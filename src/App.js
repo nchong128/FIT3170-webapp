@@ -1,13 +1,14 @@
 import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import Dashboard from "./components/Dashboard"
 import {
   BrowserRouter as Router,
+  Switch,
+  Route
 } from "react-router-dom";
-import {Navbar} from "./components/pages/core/Navbar"
-import {NavDrawer} from "./components/pages/core/NavDrawer"
-import {Canvas} from "./components/pages/core/Canvas"
 import { makeStyles } from "@material-ui/core";
-
+import {AuthProvider, useAuth} from "./contexts/AuthContext";
+import {PrivateRoute} from "./components/PrivateRoute";
+import {Login} from "./components/pages/login/Login";
 const useStyles = makeStyles((theme)=>({
   root: {
     display: "flex",
@@ -19,13 +20,13 @@ const App = () => {
   const classes = useStyles()
   return (
     <Router>
-      <div className={classes.root}>
-        <CssBaseline />
-        <Navbar/>
-
-          <NavDrawer/>
-        <Canvas/>
-      </div>
+      <AuthProvider>
+          <Switch>
+            <Route path="/login" component={Login}></Route>
+            <PrivateRoute path= "/" to="/login" component={Dashboard}> 
+           </PrivateRoute>
+          </Switch>
+      </AuthProvider>
     </Router>
   );
 }

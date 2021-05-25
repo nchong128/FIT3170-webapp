@@ -5,13 +5,13 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import PatientLister from "../patient/PatientLister";
-import PatientAdd from "../patient/PatientAdd";
-import DoctorProfile from "../doctor/DoctorProfile";
-import DoctorUpdate from "../doctor/DoctorUpdate";
-import Dashboard from "../dashboard/Dashboard";
+import PatientLister from "./pages/patient/PatientLister";
+import PatientAdd from "./pages/patient/PatientAdd";
+import DoctorProfile from "./pages/doctor/DoctorProfile";
+import DoctorUpdate from "./pages/doctor/DoctorUpdate";
+import DashboardAnalytics from "./pages/dashboard/DashboardAnayltics"
 import { makeStyles } from "@material-ui/core";
-import PatientAlerts from "../patient/PatientAlerts";
+import PatientAlerts from "./pages/patient/PatientAlerts";
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -23,12 +23,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const Canvas = () => {
     const classes = useStyles();
+
     return (
         <main className={classes.content}>
-        <Toolbar />
+          <Toolbar />
           <Switch>
             <Route exact path="/">
-              <Dashboard />
+              <DashboardAnalytics />
             </Route>
             <Route exact path="/patient">
               <PatientLister />
