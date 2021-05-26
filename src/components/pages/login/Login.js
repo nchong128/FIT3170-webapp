@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#FFFFFF",
     },
     paper: {
-        margin: theme.spacing(19, 12),
+        margin: theme.spacing(19, 15),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
