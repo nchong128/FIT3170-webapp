@@ -1,6 +1,4 @@
 import React from "react";
-import Table from "../../Table";
-import dummyData from "../../../dummyData/dummyData";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -24,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const PatientLister = (props) => {
   const location = useLocation();
   const data = location.state;
-
+  const tabHeadings = ["Alerts", "ECG History", "Heartrate"];
   const fields = [
     { field: "email", title: "Email" },
     { field: "occupation", title: "Occupation" },
@@ -36,8 +34,6 @@ const PatientLister = (props) => {
   const classes = useStyles();
   return (
     <>
-      {/* <h1>My Patients</h1> */}
-      {/* <Table header={header} rows={dummyData} /> */}
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={2}>
@@ -70,7 +66,7 @@ const PatientLister = (props) => {
             <Paper className={classes.paper}>
               <Grid container spacing={3} justify="center">
                 {fields.map((field, key) => (
-                  <Grid item xs={6} justify="center">
+                  <Grid key={key} item xs={6}>
                     <Typography>
                       {field.title}: {data[field.field]}
                     </Typography>
@@ -80,7 +76,8 @@ const PatientLister = (props) => {
             </Paper>
           </Grid>
         </Grid>
-        <Tabs />
+        <div style={{ height: 20 }}></div>
+        <Tabs headers={tabHeadings} />
       </div>
     </>
   );

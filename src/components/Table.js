@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BasicTable({ header, rows }) {
+export default function BasicTable({ header, rows, onClick }) {
   const history = useHistory();
   const classes = useStyles();
   const onRowClick = (row) => {
@@ -39,7 +39,11 @@ export default function BasicTable({ header, rows }) {
         </TableHead>
         <TableBody>
           {rows.map((row, key) => (
-            <TableRow key={key} onClick={() => onRowClick(row)} hover={true}>
+            <TableRow
+              key={key}
+              onClick={onClick ? () => onRowClick(row) : null}
+              hover={true}
+            >
               {header.map((column) => (
                 <TableCell key={column.field} align="center">
                   {row[column.field]}

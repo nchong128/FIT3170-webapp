@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "../../Table";
-import dummyData from "../../../dummyData/dummyData";
+import dummyData from "../../../dummyData/dummyPatientData";
 
 const PatientLister = () => {
   const header = [
@@ -13,7 +13,7 @@ const PatientLister = () => {
   return (
     <>
       <h1>My Patients</h1>
-      <Table header={header} rows={dummyData} />
+      <Table header={header} rows={dummyData} onClick={true} />
     </>
   );
 };

@@ -6,6 +6,12 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import { DialogTitle } from "@material-ui/core";
+import ResponsiveLine from "./ResponsiveLine";
+import dummyData from "../dummyData/dummyECGData";
+import dummyECGData from "../dummyData/dummyECGData";
+import dummyHeartRate from "../dummyData/dummyHeartRate";
+import Table from "./Table";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -17,12 +23,19 @@ function TabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
+      style={{
+        height: 500,
+        justifyContent: "center",
+        textAlign: "center",
+        padding: 20,
+      }}
     >
-      {value === index && (
+      {/* {value === index && (
         <Box p={3}>
           <Typography>{children}</Typography>
         </Box>
-      )}
+      )} */}
+      {children}
     </div>
   );
 }
@@ -47,13 +60,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs() {
+export default function SimpleTabs({ headers }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const alertHeader = [
+    { field: "alertType", title: "Alert Type" },
+    { field: "date", title: "Alert Date " },
+  ];
+  const alertData = [
+    { alertType: "High Heart Rate", date: "01-04-2021" },
+    { alertType: "Unusual ECG Pattern", date: "05-04-2021" },
+  ];
 
   return (
     <div className={classes.root}>
@@ -62,20 +83,25 @@ export default function SimpleTabs() {
           value={value}
           onChange={handleChange}
           aria-label="simple tabs example"
+          style={{ backgroundColor: "#6200EE" }}
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          {headers.map((title, key) => (
+            <Tab key={key} label={title} {...a11yProps(key)} />
+          ))}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Item One
+        <Table header={alertHeader} rows={alertData} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <ResponsiveLine title="ECG Reading" data={dummyECGData} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <ResponsiveLine
+          title="Heart Rate (BPM)"
+          data={dummyHeartRate}
+          onClick={false}
+        />
       </TabPanel>
     </div>
   );
