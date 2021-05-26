@@ -13,11 +13,11 @@ export const AuthProvider = ({children}) => {
 
     function signUp(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
-    } 
+    }
 
     function login(email, password) {
         return auth.signInWithEmailAndPassword(email, password)
-    } 
+    }
 
     function logout() {
         return auth.signOut()
@@ -34,7 +34,7 @@ export const AuthProvider = ({children}) => {
     function sendPasswordResetEmail(email) {
         return auth.sendPasswordResetEmail(email)
     }
- 
+
     const value = {
         currentUser,
         signUp,
@@ -46,18 +46,19 @@ export const AuthProvider = ({children}) => {
     }
 
     useEffect(()=>{
-        // Callback that will automatically setUser when user state changes (use Logs In)
-        const unsubscribe = auth.onAuthStateChanged(user=>{
-            setCurrentUser(user)
-            // Firebase will automatically search through 
+        // Callback that will automatically setUser when user state changes (e.g. user logs in)
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            setCurrentUser(user);
+            // Firebase will automatically search through
             // localStorage to see if you have the right tokens
             // to automatically login.
-            // Do not render sign up form while this async process is occuring
-            setLoading(false)   
+            // Do not render sign up form while this async process is occurring
+            setLoading(false);
         })
 
-        return unsubscribe  // auth.onAuthStateChanged(...) returns an unsubscribe method
+        return unsubscribe;  // auth.onAuthStateChanged(...) returns an unsubscribe method
     },[])
+
     return (
         <AuthContext.Provider  value={value}>
             {!loading && children}
