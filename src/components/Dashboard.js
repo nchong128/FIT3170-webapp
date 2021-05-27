@@ -8,6 +8,8 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme)=>({
   root: {
     display: "flex",
+    height: "100vh",
+    overflowY: "scroll"
   }
 }))
 const Dashboard = () => {
