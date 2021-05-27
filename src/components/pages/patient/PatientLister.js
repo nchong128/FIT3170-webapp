@@ -36,8 +36,9 @@ const PatientLister = () => {
           //console.log(doc.id, " => ", doc.data());
           tempData.push(doc.data());
         });
+        setTableData(tempData);
       });
-    setTableData(tempData);
+
   }, []);
 
   return (
