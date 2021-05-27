@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -19,6 +19,7 @@ const useStyles = makeStyles({
 export default function BasicTable({ header, rows, onClick }) {
   const history = useHistory();
   const classes = useStyles();
+
   const onRowClick = (row) => {
     history.push({ pathname: "/patients/patient", state: row });
   };
@@ -38,19 +39,21 @@ export default function BasicTable({ header, rows, onClick }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, key) => (
-            <TableRow
-              key={key}
-              onClick={onClick ? () => onRowClick(row) : null}
-              hover={true}
-            >
-              {header.map((column) => (
-                <TableCell key={column.field} align="center">
-                  {row[column.field]}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
+          {rows.map((row, key) => {
+            return (
+              <TableRow
+                key={key}
+                onClick={onClick ? () => onRowClick(row) : null}
+                hover={true}
+              >
+                {header.map((column) => (
+                  <TableCell key={column.field} align="center">
+                    {row[column.field]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>
