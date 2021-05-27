@@ -7,7 +7,7 @@ import { PrivateRoute } from "./components/PrivateRoute";
 import { Login } from "./components/pages/login/Login";
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: "flex"
   },
 }));
 
