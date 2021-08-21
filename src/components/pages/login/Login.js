@@ -9,6 +9,7 @@ import Box from "@material-ui/core/Box";
 import Alert from '@material-ui/lab/Alert';
 import useForm from "../../../hooks/useForm";
 
+
 // TODO: Add diagonal line and Heartsight
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,16 +52,159 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const LoginForm = (props) => {
+    return (
+        <form className={props.classes.form} noValidate onSubmit={props.handleSubmitWithCleanup}>
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                onChange={props.handleInputChange}
+                value={props.inputs.email}
+                name="email"
+                className={props.classes.textfield}
+                variant="outlined"
+                id="email"
+                placeholder="Enter your email"
+                autoComplete="email"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+            <TextField
+                margin="normal"
+                fullWidth
+                className={props.classes.textfield}
+                variant="outlined"
+                onChange={props.handleInputChange}
+                required
+                value={props.inputs.password}
+                name="password"
+                placeholder="Enter your password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+
+            <Grid
+                container
+                // direction="row"
+                // justifyContent="space-between"
+                alignItems="center"
+            >
+                <Grid item xs>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name={"rememberMe"}
+                                checked={props.inputs.rememberMe}
+                                onChange={props.handleCheckboxChange}
+                                style={{
+                                    color: "#FFFFFF",
+                                }}
+                            />
+                        }
+                        label="Remember me"
+                    />
+                </Grid>
+                <Grid
+                    item
+                    styles={{
+                        textAlign: "right",
+                    }}
+                >
+                    <Link
+                        href="#"
+                        variant="body1"
+                        style={{
+                            color: "#FFFFFF",
+                        }}
+                        onClick={props.showRecoverPassword}
+                    >
+                        Recover Password
+                    </Link>
+                </Grid>
+            </Grid>
+
+            <Button
+                type="submit"
+                fullWidth
+                style={{
+                    backgroundColor: "#5784FF",
+                    color: "#FFFFFF",
+                }}
+                variant="contained"
+                className={props.classes.submit}
+            >
+                Sign In
+            </Button>
+        </form>
+    );
+}
+
+const ForgetPasswordForm = (props) => {
+    return (
+        <form className={props.classes.form} noValidate onSubmit={props.sendPwResetEmail}>
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                onChange={props.handleInputChange}
+                value={props.inputs.email}
+                name="email"
+                className={props.classes.textfield}
+                variant="outlined"
+                id="email"
+                placeholder="Enter your email"
+                autoComplete="email"
+                InputLabelProps={{
+                    shrink: true
+                }}
+            />
+
+            <Button
+                type="submit"
+                fullWidth
+                style={{
+                    backgroundColor: "#5784FF",
+                    color: "#FFFFFF",
+                }}
+                variant="contained"
+                className={props.classes.submit}
+            >
+                Recover Password
+            </Button>
+        </form>
+    );
+}
+
 export const Login = () => {
-    const {login, currentUser } = useAuth()
+    const {login, currentUser, sendPasswordResetEmail } = useAuth();
     const loginWithCredentials = () => {
         return login(inputs.email, inputs.password);
     }
     const {inputs, handleInputChange,handleCheckboxChange, handleSubmit} = useForm(loginWithCredentials);
+
     const [error, setError] = useState('');
+    const [info, setInfo] = useState('');
     const [loading, setLoading] = useState(false);
-    const history = useHistory()
+
+    /*
+        0 = LoginForm
+        1 = ForgetPasswordForm
+        2 = SignupForm
+     */
+    const [formShown, setFormShown] = useState(0);
+
+    const history = useHistory();
     const classes = useStyles();
+
+    const showRecoverPassword = () => {
+        setFormShown(1);
+    };
 
     // Clean up and set loading before attempting to login
     async function handleSubmitWithCleanup(event) {
@@ -75,8 +219,8 @@ export const Login = () => {
 
         } catch(e) {
             // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
+            var errorCode = e.code;
+            var errorMessage = e.message;
             if (errorCode === 'auth/wrong-password') {
                 setError("Wrong password");
             } else if (errorCode === "auth/invalid-email") {
@@ -94,9 +238,25 @@ export const Login = () => {
         return res;
     }
 
-    // <button onClick={loginEmailPassword}>
-    //     Test
-    // </button>
+    const sendPwResetEmail = async (event) => {
+        event.preventDefault();
+        try {
+            await sendPasswordResetEmail(inputs.email);
+        } catch (e) {
+            // Handle Errors here.
+            var errorCode = e.code;
+            var errorMessage = e.message;
+            if (errorCode === 'auth/wrong-password') {
+                setError("Wrong password");
+            } else if (errorCode === "auth/invalid-email") {
+                setError("An invalid email was used.");
+            } else {
+                setError('Failed to log in. Check if you have used the correct credentials.');
+            }
+        }
+        setInfo("Your password has been reset. Please check your email.");
+    }
+
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
@@ -106,95 +266,36 @@ export const Login = () => {
                     {
                         error && (<Alert severity="error">{error}</Alert>)
                     }
-                    <form className={classes.form} noValidate onSubmit={handleSubmitWithCleanup}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            onChange={handleInputChange}
-                            value={inputs.email}
-                            name="email"
-                            className={classes.textfield}
-                            variant="outlined"
-                            id="email"
-                            placeholder="Enter your email"
-                            autoComplete="email"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
+
+                    {
+                        info && (<Alert severity="info">{info}</Alert>)
+                    }
+
+                    { formShown === 0 &&
+                        <LoginForm
+                            classes={classes}
+                            handleSubmitWithCleanup={handleSubmitWithCleanup}
+                            handleInputChange={handleInputChange}
+                            handleCheckboxChange={handleCheckboxChange}
+                            inputs={inputs}
+                            showRecoverPassword={showRecoverPassword}
                         />
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            className={classes.textfield}
-                            variant="outlined"
-                            onChange={handleInputChange}
-                            required
-                            value={inputs.password}
-                            name="password"
-                            placeholder="Enter your password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
+                    }
+
+                    { formShown === 1 &&
+                        <ForgetPasswordForm
+                            classes={classes}
+                            handleSubmitWithCleanup={handleSubmitWithCleanup}
+                            handleInputChange={handleInputChange}
+                            handleCheckboxChange={handleCheckboxChange}
+                            inputs={inputs}
+                            setError={setError}
+                            sendPwResetEmail={sendPwResetEmail}
                         />
+                    }
 
-                        <Grid
-                            container
-                            // direction="row"
-                            // justifyContent="space-between"
-                            alignItems="center"
-                        >
-                            <Grid item xs>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            name={"rememberMe"}
-                                            checked={inputs.rememberMe}
-                                            onChange={handleCheckboxChange}
-                                            style={{
-                                                color: "#FFFFFF",
-                                            }}
-                                        />
-                                    }
-                                    label="Remember me"
-                                />
-                            </Grid>
-                            <Grid
-                                item
-                                styles={{
-                                    textAlign: "right",
-                                }}
-                            >
-                                <Link
-                                    href="#"
-                                    variant="body1"
-                                    style={{
-                                        color: "#FFFFFF",
-                                    }}
-                                >
-                                    Recover Password
-                                </Link>
-                            </Grid>
-                        </Grid>
 
-                        <Button
-                            type="submit"
-                            fullWidth
-                            style={{
-                                backgroundColor: "#5784FF",
-                                color: "#FFFFFF",
-                            }}
-                            variant="contained"
-                            // color="#5784FF"
-                            className={classes.submit}
-                        >
-                            Sign In
-                        </Button>
 
-                    </form>
                 </div>
             </Grid>
         </Grid>
