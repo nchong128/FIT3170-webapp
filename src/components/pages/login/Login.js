@@ -9,7 +9,6 @@ import Box from "@material-ui/core/Box";
 import Alert from '@material-ui/lab/Alert';
 import useForm from "../../../hooks/useForm";
 
-
 // TODO: Add diagonal line and Heartsight
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -129,6 +128,154 @@ const LoginForm = (props) => {
                 </Grid>
             </Grid>
 
+
+            <Grid
+                container
+                // direction="row"
+                // justifyContent="space-between"
+                alignItems="center"
+            >
+                <Grid item xs>
+                    <Link
+                        href="#"
+                        variant="body1"
+                        style={{
+                            color: "#FFFFFF",
+                        }}
+                        onClick={props.showSignupForm}
+                    >
+                        Create account
+                    </Link>
+                </Grid>
+                <Grid
+                    item
+                    // styles={{
+                    //     textAlign: "right",
+                    // }}
+                >
+                    <Button
+                        type="submit"
+                        fullWidth
+                        style={{
+                            backgroundColor: "#5784FF",
+                            color: "#FFFFFF",
+                        }}
+                        variant="contained"
+                        className={props.classes.submit}
+                    >
+                        Sign In
+                    </Button>
+                </Grid>
+
+            </Grid>
+        </form>
+    );
+}
+
+const SignupForm = (props) => {
+    return (
+        <form className={props.classes.form} noValidate onSubmit={props.handleSubmitWithCleanup}>
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                onChange={props.handleInputChange}
+                value={props.inputs.givenName}
+                name="givenName"
+                className={props.classes.textfield}
+                variant="outlined"
+                id="givenName"
+                placeholder="Enter your given name"
+                autoComplete="givenName"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                onChange={props.handleInputChange}
+                value={props.inputs.familyName}
+                name="familyName"
+                className={props.classes.textfield}
+                variant="outlined"
+                id="familyName"
+                placeholder="Enter your family name"
+                autoComplete="familyName"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                onChange={props.handleInputChange}
+                value={props.inputs.email}
+                name="email"
+                className={props.classes.textfield}
+                variant="outlined"
+                id="email"
+                placeholder="Enter your email"
+                autoComplete="email"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                onChange={props.handleInputChange}
+                value={props.inputs.dob}
+                name="dob"
+                type="date"
+                className={props.classes.textfield}
+                variant="outlined"
+                id="dob"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+
+            <TextField
+                margin="normal"
+                fullWidth
+                className={props.classes.textfield}
+                variant="outlined"
+                onChange={props.handleInputChange}
+                required
+                value={props.inputs.password}
+                name="password"
+                placeholder="Enter your password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+            <TextField
+                margin="normal"
+                fullWidth
+                className={props.classes.textfield}
+                variant="outlined"
+                onChange={props.handleInputChange}
+                required
+                value={props.inputs.confirmPassword}
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                type="password"
+                id="confirmPassword"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+
             <Button
                 type="submit"
                 fullWidth
@@ -139,8 +286,9 @@ const LoginForm = (props) => {
                 variant="contained"
                 className={props.classes.submit}
             >
-                Sign In
+                Create Account
             </Button>
+
         </form>
     );
 }
@@ -182,11 +330,49 @@ const ForgetPasswordForm = (props) => {
 }
 
 export const Login = () => {
-    const {login, currentUser, sendPasswordResetEmail } = useAuth();
+    const {login, currentUser, sendPasswordResetEmail, signUp } = useAuth();
     const loginWithCredentials = () => {
         return login(inputs.email, inputs.password);
     }
     const {inputs, handleInputChange,handleCheckboxChange, handleSubmit} = useForm(loginWithCredentials);
+
+    const signUpWithDetails = async () => {
+        try {
+            setError('');
+            await signUp(signUpInputs.email, signUpInputs.password);
+        } catch (e) {
+            /*
+            auth/email-already-in-use
+            Thrown if there already exists an account with the given email address.
+            auth/invalid-email
+            Thrown if the email address is not valid.
+            auth/operation-not-allowed
+            Thrown if email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab.
+            auth/weak-password
+            Thrown if the password is not strong enough
+             */
+            // Handle Errors here.
+            var errorCode = e.code;
+            var errorMessage = e.message;
+            if (errorCode === 'auth/email-already-in-use') {
+                setError("Email already in use.");
+            } else if (errorCode === "auth/invalid-email") {
+                setError("An invalid email was used.");
+            } else if (errorCode === "auth/weak-password") {
+                setError("Please sign up with a stronger password.");
+            } else {
+                setError(`Failed to sign up. Error message ${errorMessage}.`);
+            }
+            return;
+        }
+        showLoginForm();
+    }
+    const {
+        inputs: signUpInputs,
+        handleInputChange: signUpHandleInputChange,
+        handleCheckboxChange: signUpHandleCheckboxChange,
+        handleSubmit: signUpHandleSubmit
+    } = useForm(signUpWithDetails);
 
     const [error, setError] = useState('');
     const [info, setInfo] = useState('');
@@ -202,9 +388,18 @@ export const Login = () => {
     const history = useHistory();
     const classes = useStyles();
 
+    const showLoginForm = () => {
+        setFormShown(0);
+    };
+
     const showRecoverPassword = () => {
         setFormShown(1);
     };
+
+    const showSignupForm = () => {
+        setFormShown(2);
+    }
+
 
     // Clean up and set loading before attempting to login
     async function handleSubmitWithCleanup(event) {
@@ -279,6 +474,7 @@ export const Login = () => {
                             handleCheckboxChange={handleCheckboxChange}
                             inputs={inputs}
                             showRecoverPassword={showRecoverPassword}
+                            showSignupForm={showSignupForm}
                         />
                     }
 
@@ -291,6 +487,17 @@ export const Login = () => {
                             inputs={inputs}
                             setError={setError}
                             sendPwResetEmail={sendPwResetEmail}
+                        />
+                    }
+
+                    { formShown === 2 &&
+                        <SignupForm
+                            classes={classes}
+                            handleSubmitWithCleanup={signUpHandleSubmit}
+                            handleInputChange={signUpHandleInputChange}
+                            handleCheckboxChange={signUpHandleCheckboxChange}
+                            inputs={signUpInputs}
+                            setError={setError}
                         />
                     }
 
