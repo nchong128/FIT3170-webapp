@@ -31,8 +31,10 @@ const DoctorProfile = (props) => {
 
   const { currentUser } = useAuth();
 
+  // Start with empty doctor profile with no info
   const [ doctorProfileInfo, setDoctorProfileInfo ] = useState({});
 
+  // On component mount/unmount, retrieve user information from firebase and set to empty doctor profile
   useEffect(async () => {
     // Retrieve user information using currentUser
     const userDataDoc = await firestore.collection("doctors").doc(currentUser.uid).get();
