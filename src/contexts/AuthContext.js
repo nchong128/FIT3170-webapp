@@ -1,5 +1,5 @@
 import {useContext, createContext, useState, useEffect} from 'react';
-import {auth} from '../firebase';
+import {auth, firestore} from '../firebase';
 
 const AuthContext = createContext(null)
 
@@ -11,8 +11,17 @@ export const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(null); //holds info about current user
     const [loading, setLoading] = useState(true)
 
-    function signUp(email, password) {
-        return auth.createUserWithEmailAndPassword(email, password);
+    async function signUp(email, password, meta) {
+        try {
+            const createUserRef = await auth.createUserWithEmailAndPassword(email, password);
+            // Get user UID and make doctor profile
+            const userUid = createUserRef?.user?.uid;
+            const createDoctorProfileRef = await firestore.collection("doctors").doc(userUid).set(meta);
+        } catch(e) {
+            console.log(e);
+            alert(e);
+        }
+
     }
 
     function login(email, password) {

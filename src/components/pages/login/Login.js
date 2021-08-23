@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Alert from '@material-ui/lab/Alert';
 import useForm from "../../../hooks/useForm";
+import {firestore} from "../../../firebase";
 
 // TODO: Add diagonal line and Heartsight
 const useStyles = makeStyles((theme) => ({
@@ -339,7 +340,12 @@ export const Login = () => {
     const signUpWithDetails = async () => {
         try {
             setError('');
-            await signUp(signUpInputs.email, signUpInputs.password);
+            await signUp(signUpInputs.email, signUpInputs.password, {
+                givenName: signUpInputs.givenName,
+                familyName: signUpInputs.familyName,
+                email: signUpInputs.email,
+                dob: new Date(signUpInputs.dob)
+            });
         } catch (e) {
             /*
             auth/email-already-in-use
