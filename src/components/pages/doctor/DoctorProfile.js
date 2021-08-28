@@ -115,7 +115,6 @@ const DoctorProfile = (props) => {
         { field: "givenName", title: "Given Name" },
         { field: "familyName", title: "Family Name" },
         { field: "dob", title: "Date of Birth" },
-        { field: "email", title: "Email" },
         { field: "gender", title: "Gender" },
         { field: "placeOfPractice", title: "Place of Practice" }
     ];
@@ -138,6 +137,12 @@ const DoctorProfile = (props) => {
                                 <Grid item xs={12} >
                                     <Typography display="inline" style={{ float: "left" }}>
                                         {doctorProfileInfo["givenName"]} {doctorProfileInfo["familyName"]}
+                                    </Typography>
+                                    
+                                </Grid>
+                                <Grid>
+                                <Typography display="inline" style={{ float: "left" }}>
+                                        {doctorProfileInfo["email"]} 
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} >
@@ -174,11 +179,18 @@ const DoctorProfile = (props) => {
 const ProfileTable = (props) => {
     return <Grid container spacing={3} justify="center">
         {props.fields.map((field, key) => (
-            <Grid key={key} item xs={12}>
+            <><Grid key={key} item xs={6}>
                 <Typography>
-                    {field.title}: {props.doctorProfileInfo[field.field]}
+                    {field.title}: 
                 </Typography>
             </Grid>
+            <Grid key={key} item xs={6}>
+            <Typography>
+            {props.doctorProfileInfo[field.field]}
+            </Typography>
+        </Grid></>
+
+
         ))}
     </Grid>;
 }
