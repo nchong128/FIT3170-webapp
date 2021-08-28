@@ -55,6 +55,15 @@ const DoctorProfile = (props) => {
                 placeOfPractice: updateProfileInputs.placeOfPractice
             });
 
+            setDoctorProfileInfo({
+                givenName: updateProfileInputs.givenName,
+                familyName: updateProfileInputs.familyName,
+                email: updateProfileInputs.email,
+                dob: updateProfileInputs.dob,
+                gender: updateProfileInputs.gender,
+                placeOfPractice: updateProfileInputs.placeOfPractice
+            });
+
             // change back to view doctor profile
             setEditMode(false);
 
