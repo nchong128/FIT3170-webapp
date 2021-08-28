@@ -1,17 +1,22 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import { Typography, Button } from "@material-ui/core";
-import { TextField } from "@material-ui/core";
+import { TextField, Paper } from "@material-ui/core";
 
 export const UpdateProfileForm = (props) => {
     return (
         <form id={props.formId} className={props.classes.form} noValidate onSubmit={props.handleSubmitWithCleanup}>
 
-
-            <Grid item>
+        <Grid container spacing={3}>
+        <Grid item xs={6}>
                 <Typography>
                     Given Name:
-                    <TextField
+                    
+                </Typography>
+
+        </Grid>
+        <Grid item xs={6}>
+        <TextField
                         required
                         onChange={props.handleInputChange}
                         value={props.inputs.givenName}
@@ -24,11 +29,17 @@ export const UpdateProfileForm = (props) => {
                         InputLabelProps={{
                             shrink: true,
                         }} />
+
+        </Grid>
+        <Grid item xs={6}>
+                <Typography>
+                    Family Name:
+                    
                 </Typography>
-                <Grid item>
-                    <Typography>
-                        Family Name:
-                        <TextField
+
+        </Grid>
+        <Grid item xs={6}>
+        <TextField
                             required
                             onChange={props.handleInputChange}
                             value={props.inputs.familyName}
@@ -42,12 +53,17 @@ export const UpdateProfileForm = (props) => {
                             InputLabelProps={{
                                 shrink: true,
                             }} />
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <Typography>
-                        DOB:
-                        <TextField
+
+        </Grid>
+        <Grid item xs={6}>
+                <Typography>
+                    Date of Birth:
+                    
+                </Typography>
+
+        </Grid>
+        <Grid item xs={6}>
+        <TextField
                             margin="normal"
                             required
                             fullWidth
@@ -61,12 +77,17 @@ export const UpdateProfileForm = (props) => {
                             InputLabelProps={{
                                 shrink: true,
                             }} />
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <Typography>
-                        Gender
-                        <TextField
+
+        </Grid>
+        <Grid item xs={6}>
+                <Typography>
+                    Gender:
+                    
+                </Typography>
+
+        </Grid>
+        <Grid item xs={6}>
+        <TextField
                             required
                             onChange={props.handleInputChange}
                             value={props.inputs.gender}
@@ -80,32 +101,19 @@ export const UpdateProfileForm = (props) => {
                             InputLabelProps={{
                                 shrink: true,
                             }} />
-                    </Typography>
-                </Grid>
-                {/* <Grid item>
-            <Typography>
-                Email:
-                <TextField
-                    required
-                    onChange={props.handleInputChange}
-                    value={props.inputs.email}
-                    
-                    name="email"
-                    className={props.classes.email}
-                    variant="outlined"
-                    id="email"
-                    autoComplete="email"
-                    
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-            </Typography>
-        </Grid> */}
-                <Grid item>
+
+        </Grid>
+
+
+
+                <Grid item xs={6}>
                     <Typography>
                         Place of Practice:
-                        <TextField
+                        
+                    </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                <TextField
                             required
                             onChange={props.handleInputChange}
                             value={props.inputs.placeOfPractice}
@@ -119,11 +127,9 @@ export const UpdateProfileForm = (props) => {
                             InputLabelProps={{
                                 shrink: true,
                             }} />
-                    </Typography>
                 </Grid>
-
-
-            </Grid>
+                
+                </Grid>
         </form>
     );
 };
