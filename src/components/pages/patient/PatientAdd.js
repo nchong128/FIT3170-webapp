@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core"
 import { CircularProgress } from "@material-ui/core"
 import QRCode from 'qrcode';
 import { useEffect, useState } from "react";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth, createInvite } from "../../../contexts/AuthContext";
 import { firestore } from "../../../firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,16 +37,20 @@ const useStyles = makeStyles((theme) => ({
 
 const PatientAdd = () => {
     const classes = useStyles();
-    const { currentUser } = useAuth();
+    const { currentUser, createInvite } = useAuth();
     const [src, setSrc] = useState('');
 
     useEffect(async () => {
-        // Retrieve doctorId and inviteId using currentUser
-        const inviteId = await firestore.collection("invites").doc(currentUser.inviteId).get();
-        const doctorId = await firestore.collection("doctors").doc(currentUser.uid).get();
+        // Retrieve doctorId and inviteId 
+        const inviteId = await createInvite();
+        const doctorId = currentUser.uid;
+        const doctorIdDoc = await firestore.collection("doctors").doc(doctorId).get();
+        const doctorIdData = doctorIdDoc.data();
+
         const qrtext = `${inviteId}-${doctorId}`;
         QRCode.toDataURL(qrtext).then(setSrc);
     }, [])
+
 
     return (
         <div className={classes.root}>
