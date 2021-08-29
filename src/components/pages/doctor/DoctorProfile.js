@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-
-import { Fade, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Paper, Fade, Grid } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import Tabs from "../../Tabs";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import { firestore } from "../../../firebase";
-import { Link } from "react-router-dom";
 import { UpdateProfileForm } from "./UpdateProfileForm";
 import useForm from "../../../hooks/useForm";
 
@@ -67,7 +62,6 @@ const DoctorProfile = (props) => {
             // change back to view doctor profile
             setEditMode(false);
 
-            alert(`User profile successfully updated`);
         } catch (e) {
             console.log(e);
             alert(`Update failed: ${e}`);
@@ -96,16 +90,6 @@ const DoctorProfile = (props) => {
             email: userData.email,
             gender: userData.gender,
             placeOfPractice: userData.placeOfPractice
-        });
-        // Used to set initial values of Update Profile form
-        setUpdateProfileInputs({
-            givenName: userData.givenName,
-            familyName: userData.familyName,
-            dob: userData.dob.toDate().toISOString().substring(0, 10),
-            email: userData.email,
-            gender: userData.gender,
-            placeOfPractice: userData.placeOfPractice
-
         });
     }, []);
 
@@ -138,11 +122,11 @@ const DoctorProfile = (props) => {
                                     <Typography display="inline" style={{ float: "left" }}>
                                         {doctorProfileInfo["givenName"]} {doctorProfileInfo["familyName"]}
                                     </Typography>
-                                    
+
                                 </Grid>
                                 <Grid>
-                                <Typography display="inline" style={{ float: "left" }}>
-                                        {doctorProfileInfo["email"]} 
+                                    <Typography display="inline" style={{ float: "left" }}>
+                                        {doctorProfileInfo["email"]}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} >
@@ -150,7 +134,10 @@ const DoctorProfile = (props) => {
                                         classes={classes}
                                         onClick={() => setEditMode(false)} /> :
                                         <UpdateProfileButton
-                                            onClick={() => setEditMode(true)} />}
+                                            onClick={() => {
+                                                setEditMode(true)
+                                                setUpdateProfileInputs(doctorProfileInfo)
+                                            }} />}
                                 </Grid>
                             </Grid>
                         </Paper>
@@ -177,18 +164,18 @@ const DoctorProfile = (props) => {
 };
 
 const ProfileTable = (props) => {
-    return <Grid container spacing={3} justify="center">
+    return <Grid container spacing={3}>
         {props.fields.map((field, key) => (
             <><Grid key={key} item xs={6}>
                 <Typography>
-                    {field.title}: 
+                    {field.title}:
                 </Typography>
             </Grid>
-            <Grid key={key} item xs={6}>
-            <Typography>
-            {props.doctorProfileInfo[field.field]}
-            </Typography>
-        </Grid></>
+                <Grid key={key} item xs={6}>
+                    <Typography align="left">
+                        {props.doctorProfileInfo[field.field]}
+                    </Typography>
+                </Grid></>
 
 
         ))}
@@ -207,7 +194,7 @@ const UpdateProfileButton = (props) => {
 }
 
 const EditProfileButtons = (props) => {
-    return <div style={{float: "right"}}><Button
+    return <div style={{ float: "right" }}><Button
         onClick={props.onClick}
     >
         Cancel
