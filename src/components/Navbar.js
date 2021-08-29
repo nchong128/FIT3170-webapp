@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { makeStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import {useAuth} from "../contexts/AuthContext";
 
 const drawerWidth = 240;
 
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme)=>({
 
 export const Navbar = () => {
     const classes = useStyles();
+    const { logout } = useAuth();
 
     return (
       <AppBar position="fixed" className={classes.appBar}>
@@ -36,7 +38,7 @@ export const Navbar = () => {
             </Typography>
             <Box display="flex" alignItems="center">
               <FavoriteIcon className={classes.icon}/>
-              <Typography variant="h6" noWrap>
+              <Typography variant="h6" noWrap onClick={logout}>
                 Heartsight
               </Typography>
             </Box>

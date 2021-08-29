@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -7,6 +7,8 @@ import { Typography, Button } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Tabs from "../../Tabs";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
+import {firestore} from "../../../firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,27 +22,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getDoctorProfileInfoQuery = (currentUser) => {
+  
+}
+
 const DoctorProfile = (props) => {
   const location = useLocation();
-  // const data = location.state;
-  const data = {
-    givenName: "Nick",
-    surname: "Chong",
-    gender: "Male",
-    age: "21",
-    email: "niccho@heartsight.com",
-    phone: "398-6893-75",
-    occupation: "Student",
-    maritalStatus: "Single :(",
-  };
+
+  const { currentUser } = useAuth();
+
+  // Start with empty doctor profile with no info
+  const [ doctorProfileInfo, setDoctorProfileInfo ] = useState({});
+
+  // On component mount/unmount, retrieve user information from firebase and set to empty doctor profile
+  useEffect(async () => {
+    // Retrieve user information using currentUser
+    const userDataDoc = await firestore.collection("doctors").doc(currentUser.uid).get();
+    const userData = userDataDoc.data();
+    setDoctorProfileInfo({
+      givenName: userData.givenName,
+      familyName: userData.familyName,
+      dob: userData.dob,
+      email: userData.email
+    });
+  },[]);
+
+  
   const tabHeadings = ["Alerts", "ECG History", "Heartrate"];
   const fields = [
     { field: "email", title: "Email" },
-    { field: "occupation", title: "Occupation" },
-    { field: "age", title: "Age" },
+    // { field: "age", title: "Age" }, //TODO: Needs to be computed from DOB
     { field: "gender", title: "Gender" },
-    { field: "phone", title: "Phone" },
-    { field: "maritalStatus", title: "Marital Status" },
   ];
   const classes = useStyles();
   return (
@@ -60,7 +72,7 @@ const DoctorProfile = (props) => {
                   </Grid>
                   <Grid item xs={12} >
                     <Typography display="inline" style={{float: "left"}}>
-                      {data["givenName"]} {data["surname"]}
+                      {doctorProfileInfo["givenName"]} {doctorProfileInfo["familyName"]}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -72,7 +84,7 @@ const DoctorProfile = (props) => {
                   {fields.map((field, key) => (
                       <Grid key={key} item xs={12}>
                         <Typography>
-                          {field.title}: {data[field.field]}
+                          {field.title}: {doctorProfileInfo[field.field]}
                         </Typography>
                       </Grid>
                   ))}

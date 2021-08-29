@@ -1,4 +1,4 @@
-import {useContext, createContext, useState, useEffect} from 'react'
+import { useContext, createContext, useState, useEffect } from 'react'
 import { firestore, auth } from '../firebase'
 import { v4 } from 'uuid';
 import firebase from "firebase/app";
@@ -10,11 +10,20 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({children}) => {
-    const [currentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState(null); //holds info about current user
     const [loading, setLoading] = useState(true)
 
-    function signUp(email, password) {
-        return auth.createUserWithEmailAndPassword(email, password)
+    async function signUp(email, password, meta) {
+        try {
+            const createUserRef = await auth.createUserWithEmailAndPassword(email, password);
+            // Get user UID and make doctor profile
+            const userUid = createUserRef?.user?.uid;
+            const createDoctorProfileRef = await firestore.collection("doctors").doc(userUid).set(meta);
+        } catch(e) {
+            console.log(e);
+            alert(e);
+        }
+
     }
 
     async function createInvite() {
@@ -40,23 +49,23 @@ export const AuthProvider = ({children}) => {
     }
 
     function login(email, password) {
-        return auth.signInWithEmailAndPassword(email, password)
+        return auth.signInWithEmailAndPassword(email, password);
     }
 
     function logout() {
-        return auth.signOut()
+        return auth.signOut();
     }
 
     function updateDisplayName(displayName) {
-        return currentUser.updateProfile({displayName})
+        return currentUser.updateProfile({displayName});
     }
 
     function updatePassword(password) {
-        return currentUser.updatePassword(password)
+        return currentUser.updatePassword(password);
     }
 
     function sendPasswordResetEmail(email) {
-        return auth.sendPasswordResetEmail(email)
+        return auth.sendPasswordResetEmail(email);
     }
 
     const value = {
@@ -82,7 +91,7 @@ export const AuthProvider = ({children}) => {
         })
 
         return unsubscribe;  // auth.onAuthStateChanged(...) returns an unsubscribe method
-    },[])
+    },[]);
 
     return (
         <AuthContext.Provider  value={value}>
