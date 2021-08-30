@@ -1,5 +1,7 @@
-import {useContext, createContext, useState, useEffect} from 'react';
-import {auth, firestore} from '../firebase';
+import { useContext, createContext, useState, useEffect } from 'react'
+import { firestore, auth } from '../firebase'
+import { v4 } from 'uuid';
+import firebase from "firebase/app";
 
 const AuthContext = createContext(null)
 
@@ -22,6 +24,28 @@ export const AuthProvider = ({children}) => {
             alert(e);
         }
 
+    }
+
+    async function createInvite() {
+        // Creates inviteId using UUID library
+        var inviteId = v4();
+        inviteId = inviteId.toString().replaceAll("-", "");
+        // Sets expiration date
+        var inviteExpiry = new Date(Date.now() + (3600 * 1000 * 24)); // 24 hours 
+        const firestoreInvExp = firebase.firestore.Timestamp.fromDate(inviteExpiry);
+        try {
+            const doctorId = currentUser.uid;
+
+            await firestore.collection("invites").doc(inviteId).set({
+                doctorId: doctorId,
+                validUntil: firestoreInvExp
+            });
+
+        } catch (e) {
+            console.log(e);
+            alert(e);
+        }
+        return inviteId;
     }
 
     function login(email, password) {
@@ -47,6 +71,7 @@ export const AuthProvider = ({children}) => {
     const value = {
         currentUser,
         signUp,
+        createInvite,
         login,
         logout,
         updateDisplayName,

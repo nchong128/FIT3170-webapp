@@ -1,6 +1,11 @@
 import React from "react";
-import {makeStyles} from "@material-ui/core"
-import {CircularProgress} from "@material-ui/core"
+import { makeStyles } from "@material-ui/core"
+import { CircularProgress } from "@material-ui/core"
+import QRCode from 'qrcode';
+import { useEffect, useState } from "react";
+import { useAuth, createInvite } from "../../../contexts/AuthContext";
+import { firestore } from "../../../firebase";
+
 const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
@@ -31,22 +36,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PatientAdd = () => {
-  const classes = useStyles();
-  return (
-    <div className={classes.root}>
-      <h1 className={classes.header}>
-      Patient Link QR Code 
+    const classes = useStyles();
+    const { currentUser, createInvite } = useAuth();
+    const [src, setSrc] = useState('');
+
+    useEffect(async () => {
+        // Retrieve doctorId and inviteId 
+        const inviteId = await createInvite();
+        const doctorId = currentUser.uid;
+        const doctorIdDoc = await firestore.collection("doctors").doc(doctorId).get();
+        const doctorIdData = doctorIdDoc.data();
+
+        const qrtext = `${inviteId}-${doctorId}`;
+        QRCode.toDataURL(qrtext).then(setSrc);
+    }, [])
+
+
+    return (
+        <div className={classes.root}>
+            <h1 className={classes.header}>
+                Patient Link QR Code
       </h1>
-      <img className={classes.qrCode} src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1024px-QR_code_for_mobile_English_Wikipedia.svg.png">
-      </img>
-      <p className={classes.sub}>Waiting for a patient to scan the code...</p>
-      <CircularProgress className={classes.spinner} color="secondary"/>
-  </div>
+            <img className={classes.qrCode} src={src} >
+            </img>
+            <p className={classes.sub}>Waiting for a patient to scan the code...</p>
+            <CircularProgress className={classes.spinner} color="secondary" />
+        </div>
   )
-
-
-  
-
 };
 
 export default PatientAdd;
