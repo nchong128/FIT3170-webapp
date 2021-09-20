@@ -9,6 +9,8 @@ import { useLocation } from "react-router-dom";
 import { firestore } from "../../../firebase";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
+import firebase from "firebase/app";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,14 +39,24 @@ const PatientLister = (props) => {
     const classes = useStyles();
     const { currentUser } = useAuth();
     const history = useHistory();
+    
     const unlinkPatient = () =>  {
+        // remove patient from current doctor's patient list 
         firestore.collection(`/doctors/${currentUser.uid}/linkedPatients`).doc(data.id).delete().then(
             () => {
-                history.push({ pathname: "/patients", state: {} });
-                console.log("deleted")
+                // remove current doctor's id from patient's list
+                let patientRef = firestore.collection("/patients").doc(data.id)
+                patientRef.update({
+                    doctors: firebase.firestore.FieldValue.arrayRemove(currentUser.uid)
+                }).then(() => {
+                    // send user back to patient list page
+                    history.push({ pathname: "/patients", state: {} });
+                    console.log("deleted")
+                })
+                        
             }
     
-        )
+        )     
 
     };
     return (
