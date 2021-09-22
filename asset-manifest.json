@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/FIT3170-webapp/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/FIT3170-webapp/static/js/main.4801a9d7.chunk.js",
+    "main.js.map": "/FIT3170-webapp/static/js/main.4801a9d7.chunk.js.map",
+    "runtime-main.js": "/FIT3170-webapp/static/js/runtime-main.5b26dc8f.js",
+    "runtime-main.js.map": "/FIT3170-webapp/static/js/runtime-main.5b26dc8f.js.map",
+    "static/js/2.a4bf00dd.chunk.js": "/FIT3170-webapp/static/js/2.a4bf00dd.chunk.js",
+    "static/js/2.a4bf00dd.chunk.js.map": "/FIT3170-webapp/static/js/2.a4bf00dd.chunk.js.map",
+    "static/js/3.315d8d3e.chunk.js": "/FIT3170-webapp/static/js/3.315d8d3e.chunk.js",
+    "static/js/3.315d8d3e.chunk.js.map": "/FIT3170-webapp/static/js/3.315d8d3e.chunk.js.map",
+    "index.html": "/FIT3170-webapp/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/FIT3170-webapp/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.a4bf00dd.chunk.js.LICENSE.txt": "/FIT3170-webapp/static/js/2.a4bf00dd.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5b26dc8f.js",
+    "static/js/2.a4bf00dd.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.4801a9d7.chunk.js"
+  ]
+}
