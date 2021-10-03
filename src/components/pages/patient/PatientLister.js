@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import Table from "../../Table";
 import dummyData from "../../../dummyData/dummyPatientData";
 import { firestore } from "../../../firebase";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const PatientLister = () => {
   const header = [
     { field: "givenName", title: "Given Name" },
-    { field: "surname", title: "Surname" },
-    { field: "age", title: "Age" },
-    { field: "gender", title: "Gender" },
+    { field: "familyName", title: "Family Name" },
+    { field: "dateOfBirth", title: "Date of Birth" },
   ];
 
   const [tableData, setTableData] = useState([]);
@@ -25,21 +25,33 @@ const PatientLister = () => {
   //       console.error("Error adding document: ", error);
   //     });
   // }
+  const { currentUser } = useAuth();
+
   useEffect(() => {
     const tempData = [];
     firestore
-      .collection("patients")
+      .collection(`/doctors/${currentUser.uid}/linkedPatients`)
       .get()
       .then((querySnapshot) => {
+          console.log(querySnapshot)
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
           //console.log(doc.id, " => ", doc.data());
-          tempData.push(doc.data());
+          let currentPatient = {...doc.data(), id:doc.id}
+          currentPatient.dateOfBirth = currentPatient.dateOfBirth.toDate().toISOString().substring(0, 10)
+          tempData.push(currentPatient);
+          console.log(currentPatient)
+        //   console.log(doc.id, " => ", doc.data())
         });
         setTableData(tempData);
       });
 
   }, []);
+
+  
+
+
+
 
   return (
     <>

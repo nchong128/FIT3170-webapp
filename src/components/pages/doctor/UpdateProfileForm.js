@@ -41,7 +41,9 @@ export const UpdateProfileForm = (props) => {
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
+
                         required
+
                         onChange={props.handleInputChange}
                         value={props.inputs.familyName}
                         fullWidth
