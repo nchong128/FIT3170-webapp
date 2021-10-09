@@ -8,17 +8,12 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CircularProgress from '@mui/material/CircularProgress';
-import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
 
 const ECGLineGraph = ({ title, patientData }) => {
   // Storing the date
   const [readings, setReadings ] = useState([]);
   const [readingIndex, setReadingIndex] = useState(-1);
+  const [dateOfReadings, setDateOfReadings] = useState();
 
   // useEffect hook -> Firebase query given the date for the patient
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,8 +72,6 @@ const ECGLineGraph = ({ title, patientData }) => {
       return [{ color: "hsl(29, 70%, 50%)", data: convertedReadings }];
     }   
 
-
-
   return (
     readings.length > 0 ? (
     <>
@@ -94,9 +87,10 @@ const ECGLineGraph = ({ title, patientData }) => {
         label="Data Packet"
         onChange={(e) => {setReadingIndex(e.target.value)}}
         >
+          <MenuItem value={-1} key={-1}>ALL READINGS</MenuItem>
           {
             readings.map((reading, index) => {
-              return (<MenuItem value={index} key={index}>Start Date {reading.startTime.toString()}</MenuItem>)
+              return (<MenuItem value={index} key={index}>{reading.startTime.toString()}</MenuItem>)
             })
           }
         </Select>
