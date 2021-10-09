@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "homepage": "http://nchong128.github.io/FIT3170-webapp",
   "private": true,
-  
   "dependencies": {
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
+    "@mui/material": "^5.0.3",
     "@nivo/core": "^0.70.0",
     "@nivo/line": "^0.70.0",
     "@testing-library/jest-dom": "^5.12.0",

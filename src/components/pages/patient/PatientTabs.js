@@ -96,11 +96,6 @@ export default function PatientTabs({ headers, patientData }) {
         <ECGLineGraph title="ECG Reading" patientData={patientData} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        {/* <ResponsiveLine
-          title="Heart Rate (BPM)"
-          data={dummyHeartRate}
-          onClick={false}
-        /> */}
       </TabPanel>
     </div>
   );
