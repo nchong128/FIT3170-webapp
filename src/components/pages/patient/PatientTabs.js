@@ -7,11 +7,10 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { DialogTitle } from "@material-ui/core";
-import ResponsiveLine from "./ResponsiveLine";
-import dummyData from "../dummyData/dummyECGData";
-import dummyECGData from "../dummyData/dummyECGData";
-import dummyHeartRate from "../dummyData/dummyHeartRate";
-import Table from "./Table";
+import ECGLineGraph from "./ECGLineGraph";
+import dummyECGData from "../../../dummyData/dummyECGData";
+import dummyHeartRate from "../../../dummyData/dummyHeartRate";
+import Table from "../../Table";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -60,13 +59,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs({ headers }) {
+export default function PatientTabs({ headers, patientData }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   const alertHeader = [
     { field: "alertType", title: "Alert Type" },
     { field: "date", title: "Alert Date " },
@@ -94,14 +93,14 @@ export default function SimpleTabs({ headers }) {
         <Table header={alertHeader} rows={alertData} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ResponsiveLine title="ECG Reading" data={dummyECGData} />
+        <ECGLineGraph title="ECG Reading" patientData={patientData} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <ResponsiveLine
+        {/* <ResponsiveLine
           title="Heart Rate (BPM)"
           data={dummyHeartRate}
           onClick={false}
-        />
+        /> */}
       </TabPanel>
     </div>
   );

@@ -17,12 +17,12 @@ const App = () => {
     <Router>
       <AuthProvider>
         <Switch>
-          <Route path="/login" component={Login}></Route>
+          <Route path="/login" component={Login}/>
           <PrivateRoute
             path="/"
             to="/login"
             component={Dashboard}
-          ></PrivateRoute>
+          />
         </Switch>
       </AuthProvider>
     </Router>

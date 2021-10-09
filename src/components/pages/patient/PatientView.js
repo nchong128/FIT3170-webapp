@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { Typography, Button } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import Tabs from "../../Tabs";
+import PatientTabs from "./PatientTabs";
 import { useLocation } from "react-router-dom";
 import { firestore } from "../../../firebase";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
 
 const PatientLister = (props) => {
     const location = useLocation();
+
+    // This is the patient data
     const data = location.state;
     const tabHeadings = ["Alerts", "ECG History", "Heartrate"];
     const fields = [
@@ -105,7 +107,7 @@ const PatientLister = (props) => {
                     </Grid>
                 </Grid>
                 <div style={{ height: 20 }}></div>
-                <Tabs headers={tabHeadings} />
+                <PatientTabs headers={tabHeadings} patientData={data} />
             </div>
         </>
     );
