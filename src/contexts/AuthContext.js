@@ -48,6 +48,31 @@ export const AuthProvider = ({children}) => {
         return inviteId;
     }
 
+    async function pullAlerts() {
+        const tempData = [];
+        const patientCollection = await firestore.collection("patients")
+        const alerts = patientCollection.get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                patientCollection.doc(doc.id).collection("notificationHistory").get().then((querySnapshot) => {
+                    querySnapshot.forEach((notif) => {
+                        var alertDate = new Date(notif.data().notificationTime.seconds * 1000);
+                        alertDate = alertDate.toString();
+                        tempData.push(
+                            {
+                                alert: notif.data().notificationTitle,
+                                givenName: doc.data().givenName,
+                                surName: doc.data().familyName,
+                                id: doc.id,
+                                time: alertDate.substring(0, 15) + " at " + alertDate.substring(16, 21) + " Hours"
+                            });
+
+                    });
+                });
+            });
+        });
+        return tempData;
+    }
+
     function login(email, password) {
         return auth.signInWithEmailAndPassword(email, password);
     }
@@ -72,6 +97,7 @@ export const AuthProvider = ({children}) => {
         currentUser,
         signUp,
         createInvite,
+        pullAlerts,
         login,
         logout,
         updateDisplayName,

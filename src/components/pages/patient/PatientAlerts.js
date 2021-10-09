@@ -1,5 +1,7 @@
-import React from 'react'
+import React from "react";
 import Table from "../../PatientAlertsTable";
+import { useAuth, pullAlerts } from "../../../contexts/AuthContext";
+import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { firestore } from "../../../firebase";
 import dummyData from "../../../dummyData/dummyAlertData";
@@ -17,12 +19,25 @@ import dummyData from "../../../dummyData/dummyAlertData";
 // }));
 
 const PatientAlerts = () => {
-  const alertHeader = "2 new alerts since 13 Aug 2021";
+    const alertHeader = "2 new alerts since 13 Aug 2021";
+
+    const { currentUser, pullAlerts } = useAuth();
+    var alerts;
+
+    useEffect(async () => {
+        alerts = await pullAlerts();
+        // [HERE] : alerts contains AlertData with respect to the format done in dummyAlertData.js
+        console.log(alerts);
+    }, [])
+
+
+
+
   // const classes = useStyles();
   return (
     <>
       <h1>Alerts</h1>
-      <Table/>
+          <Table />
     </>
   );
 };
