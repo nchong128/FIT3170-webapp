@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CircularProgress from '@mui/material/CircularProgress';
+import moment from "moment";
 
 const ECGLineGraph = ({ title, patientData }) => {
   // Storing the date
@@ -50,7 +51,6 @@ const ECGLineGraph = ({ title, patientData }) => {
         });
         // Sort results by startDate
         tempReadings.sort(function(a,b) {
-          console.log(a,b);
           return a.startTime - b.startTime;
         })
         
@@ -60,7 +60,6 @@ const ECGLineGraph = ({ title, patientData }) => {
     const combineReadings = () => {
       let convertedReadings = [];
   
-      console.log("readings", readings);
       if (readingIndex !== -1) {
         convertedReadings = convertedReadings.concat(readings[readingIndex].data);
       } else {
@@ -68,9 +67,29 @@ const ECGLineGraph = ({ title, patientData }) => {
           convertedReadings = convertedReadings.concat(minuteReadings.data);
         });
       }
-
-      return [{ color: "hsl(29, 70%, 50%)", data: convertedReadings }];
+      
+      const currentReadings = [{ color: "hsl(29, 70%, 50%)", data: convertedReadings }];
+      return currentReadings;
     }   
+
+    const formatDate = (date) => {
+      return moment(date).format('HH:mm:ss:SSS');
+    }
+
+    const getXAxes = () => {
+      let xAxes = [];
+  
+      if (readingIndex !== -1) {
+        console.log("Readings", readings[readingIndex].data);
+        xAxes = xAxes.concat(readings[readingIndex].data.map(r => formatDate(r.x)));
+      } else {
+        readings.forEach(minuteReadings => {
+          xAxes = xAxes.concat(minuteReadings.data.map(r => formatDate(r.x)));
+        });
+      }
+      
+      return xAxes;
+    }
 
   return (
     readings.length > 0 ? (
@@ -81,7 +100,7 @@ const ECGLineGraph = ({ title, patientData }) => {
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Data Packet</InputLabel>
         <Select
-        labelId="demo-simple-select-label"
+        labelId="demo-simple-se lect-label"
         id="demo-simple-select"
         value={readingIndex}
         label="Data Packet"
@@ -109,10 +128,18 @@ const ECGLineGraph = ({ title, patientData }) => {
         stacked: true,
         reverse: false,
       }}
-      yFormat=" >-.2f"
       axisTop={null}
       axisRight={null}
       axisBottom={null}
+      yFormat=" >-.2f"
+      axisBottom={{
+        orient: "bottom",
+        tickSize: 5,
+        tickPadding: 5,
+        tickRotation:1,
+        legend: "Timestamp",
+        format: getXAxes()
+      }}
       axisLeft={{
         orient: "left",
         tickSize: 5,
