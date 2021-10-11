@@ -65,7 +65,6 @@ export const AuthProvider = ({children}) => {
                                 id: doc.id,
                                 time: alertDate.substring(0, 15) + " at " + alertDate.substring(16, 21) + " Hours"
                             });
-
                     });
                 });
             });
