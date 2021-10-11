@@ -18,6 +18,10 @@ import dummyData from "../../../dummyData/dummyAlertData";
 //   },
 // }));
 
+function timeout(delay: number) {
+    return new Promise(res => setTimeout(res, delay));
+}
+
 const PatientAlerts = () => {
     const alertHeader = "2 new alerts since 13 Aug 2021";
 
@@ -27,10 +31,12 @@ const PatientAlerts = () => {
     useEffect(async () => {
         alerts = await pullAlerts();
         // [HERE] : alerts contains AlertData with respect to the format done in dummyAlertData.js
-        console.log(alerts);
+        await timeout(1000); // Value in milliseconds
+        console.log(alerts.length);
+        
     }, [])
 
-
+    
 
 
   // const classes = useStyles();
