@@ -13,14 +13,14 @@ import moment from "moment";
 const ECGLineGraph = ({ title, patientData }) => {
   // Storing the date
   const [readings, setReadings] = useState([]);
-  const [readingIndex, setReadingIndex] = useState(-1);
+  const [readingIndex, setReadingIndex] = useState(0);
   const [dateOfReadings, setDateOfReadings] = useState();
 
   // useEffect hook -> Firebase query given the date for the patient
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     let start = new Date("2021-10-9");
-    let end = new Date("2021-10-10");
+    let end = new Date();
     let tempReadings = [];
 
     // Retrieve readings for the date given
@@ -28,6 +28,7 @@ const ECGLineGraph = ({ title, patientData }) => {
       .collection("patients")
       .doc(patientData.id)
       .collection("ecgReadings")
+      .orderBy("startTime", "desc")
       .get();
 
     readingsSnapshot.forEach((rd) => {
@@ -53,9 +54,9 @@ const ECGLineGraph = ({ title, patientData }) => {
       }
     });
     // Sort results by startDate
-    tempReadings.sort(function (a, b) {
-      return a.startTime - b.startTime;
-    });
+    // tempReadings.sort(function (a, b) {
+    //   return a.startTime - b.startTime;
+    // });
 
     setReadings(tempReadings);
   }, []);
@@ -114,9 +115,9 @@ const ECGLineGraph = ({ title, patientData }) => {
             setReadingIndex(e.target.value);
           }}
         >
-          <MenuItem value={-1} key={-1}>
+          {/* <MenuItem value={-1} key={-1}>
             ALL READINGS
-          </MenuItem>
+          </MenuItem> */}
           {readings.map((reading, index) => {
             return (
               <MenuItem value={index} key={index}>
