@@ -37,4 +37,17 @@ const PatientAlerts = () => {
   );
 };
 
+<TextField
+    margin="normal"
+    required
+    fullWidth
+    name="historyDate"
+    type="date"
+    // className={classes.textfield}
+    variant="outlined"
+    id="historyDate"
+    InputLabelProps={{
+        shrink: true,
+}}
+/>
 export default PatientAlerts

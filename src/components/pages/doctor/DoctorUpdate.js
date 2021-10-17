@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { Typography, Button } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import Tabs from "../../Tabs";
+import Tabs from "../patient/PatientTabs";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import { firestore } from "../../../firebase";
@@ -36,7 +36,7 @@ const DoctorProfile = (props) => {
     const location = useLocation();
 
     const { currentUser } = useAuth();
-    
+
     const classes = useStyles();
 
     const [error, setError] = useState('');
@@ -90,7 +90,7 @@ const DoctorProfile = (props) => {
         });
     }, []);
 
- 
+
 
     return (
         <>
