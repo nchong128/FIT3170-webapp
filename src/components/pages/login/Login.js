@@ -9,6 +9,9 @@ import Box from "@material-ui/core/Box";
 import Alert from '@material-ui/lab/Alert';
 import useForm from "../../../hooks/useForm";
 import {firestore} from "../../../firebase";
+import Image from "../../../Heartsight_Landing_Image.png";
+// Yes this image is freely usable -- 
+// Link here: https://images.unsplash.com/photo-1527628173875-3c7bfd28ad78?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1
 
 // TODO: Add diagonal line and Heartsight
 const useStyles = makeStyles((theme) => ({
@@ -20,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
         // ]
     },
     image: {
-        // backgroundImage: 'url(https://source.unsplash.com/random)',
-        backgroundRepeat: 'no-repeat',
-        // backgroundColor: "#FFFFFF",
+        height: '100vh',
+        width: '100vw',
+        backgroundImage: `url(${Image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
     },
