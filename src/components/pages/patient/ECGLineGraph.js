@@ -20,7 +20,7 @@ const ECGLineGraph = ({ title, patientData }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     let start = new Date("2021-10-9");
-    let end = new Date();
+    let end = new Date("2021-10-10");
     let tempReadings = [];
 
     // Retrieve readings for the date given
@@ -29,6 +29,7 @@ const ECGLineGraph = ({ title, patientData }) => {
       .doc(patientData.id)
       .collection("ecgReadings")
       .orderBy("startTime", "desc")
+      .limit(20)
       .get();
 
     readingsSnapshot.forEach((rd) => {
