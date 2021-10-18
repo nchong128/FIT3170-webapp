@@ -438,7 +438,7 @@ export const Login = () => {
         let res = cleanUp();
 
         //  Only proceed if user is successfully logged in
-        history.push('/');
+        history.push('/patients');
         return res;
     }
 

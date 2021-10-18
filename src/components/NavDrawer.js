@@ -52,12 +52,12 @@ export const NavDrawer = () => {
             <Toolbar />
             <div className={classes.drawerContainer}>
                 <List component="nav" aria-labelledby="nested-list-subheader">
-                    <ListItem button component={Link} to="/">
+                    {/* <ListItem button component={Link} to="/">
                         <ListItemIcon>
                             <DashboardIcon />
                         </ListItemIcon>
                         <ListItemText primary="Dashboard" />
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem button onClick={() => setPatientOpen(!patientOpen)}>
                         <ListItemIcon>
                             <AccessibilityIcon />
