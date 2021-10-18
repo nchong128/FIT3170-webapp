@@ -19,8 +19,9 @@ const ECGLineGraph = ({ title, patientData }) => {
   // useEffect hook -> Firebase query given the date for the patient
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
+    console.log("Loading ECG data");
     let start = new Date("2021-10-9");
-    let end = new Date("2021-10-10");
+    let end = new Date();
     let tempReadings = [];
 
     // Retrieve readings for the date given
