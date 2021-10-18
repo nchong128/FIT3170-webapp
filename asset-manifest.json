@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/FIT3170-webapp/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/FIT3170-webapp/static/js/main.2fe808a7.chunk.js",
-    "main.js.map": "/FIT3170-webapp/static/js/main.2fe808a7.chunk.js.map",
+    "main.js": "/FIT3170-webapp/static/js/main.9e3cd3ee.chunk.js",
+    "main.js.map": "/FIT3170-webapp/static/js/main.9e3cd3ee.chunk.js.map",
     "runtime-main.js": "/FIT3170-webapp/static/js/runtime-main.d312b704.js",
     "runtime-main.js.map": "/FIT3170-webapp/static/js/runtime-main.d312b704.js.map",
-    "static/js/2.586e812a.chunk.js": "/FIT3170-webapp/static/js/2.586e812a.chunk.js",
-    "static/js/2.586e812a.chunk.js.map": "/FIT3170-webapp/static/js/2.586e812a.chunk.js.map",
+    "static/js/2.bfc890fe.chunk.js": "/FIT3170-webapp/static/js/2.bfc890fe.chunk.js",
+    "static/js/2.bfc890fe.chunk.js.map": "/FIT3170-webapp/static/js/2.bfc890fe.chunk.js.map",
     "static/js/3.bc80142b.chunk.js": "/FIT3170-webapp/static/js/3.bc80142b.chunk.js",
     "static/js/3.bc80142b.chunk.js.map": "/FIT3170-webapp/static/js/3.bc80142b.chunk.js.map",
     "index.html": "/FIT3170-webapp/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/FIT3170-webapp/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.586e812a.chunk.js.LICENSE.txt": "/FIT3170-webapp/static/js/2.586e812a.chunk.js.LICENSE.txt",
+    "static/js/2.bfc890fe.chunk.js.LICENSE.txt": "/FIT3170-webapp/static/js/2.bfc890fe.chunk.js.LICENSE.txt",
     "static/media/Heartsight_Landing_Image.d63284ed.png": "/FIT3170-webapp/static/media/Heartsight_Landing_Image.d63284ed.png"
   },
   "entrypoints": [
     "static/js/runtime-main.d312b704.js",
-    "static/js/2.586e812a.chunk.js",
+    "static/js/2.bfc890fe.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.2fe808a7.chunk.js"
+    "static/js/main.9e3cd3ee.chunk.js"
   ]
 }
