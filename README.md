@@ -1,4 +1,4 @@
-# Heartsight
+# Heartsight ❤️
 ## About
 Web application for Heartsight used by doctors for diagnostic imaging of electro-cardiogram data.
 
