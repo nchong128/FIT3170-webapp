@@ -26,6 +26,10 @@ export const AuthProvider = ({children}) => {
 
     }
 
+    /**
+     * Creates an invite to allow the doctor to add a patient. The invite expires in 1 day.
+     * @returns {string} inviteId - The invite id embedded in the QR code containing the invite information
+     * */
     async function createInvite() {
         // Creates inviteId using UUID library
         var inviteId = v4();
@@ -48,6 +52,10 @@ export const AuthProvider = ({children}) => {
         return inviteId;
     }
 
+    /**
+     * Retrieves the alerts stored in firestore, parses it into the proper format and returns it.
+     * @returns {list[object]} tempData - A list of dictionaries each containing the information of a patient alert
+     * */
     async function pullAlerts() {
         const tempData = [];
         const patientCollection = await firestore.collection("patients")

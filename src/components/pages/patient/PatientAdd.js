@@ -1,3 +1,10 @@
+/*
+Name: Hao Jun, Heng
+Date: 22/10/2021
+
+The page responsible for displaying the QR invite so that doctors are able to add patients.
+*/
+
 import React from "react";
 import { makeStyles } from "@material-ui/core"
 import { CircularProgress } from "@material-ui/core"
@@ -35,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+/**
+ * Gets the invite id and doctor id and embeds them into a QR code.
+ * */
 const PatientAdd = () => {
     const classes = useStyles();
     const { currentUser, createInvite } = useAuth();
@@ -44,14 +54,12 @@ const PatientAdd = () => {
         // Retrieve doctorId and inviteId 
         const inviteId = await createInvite();
         const doctorId = currentUser.uid;
-        const doctorIdDoc = await firestore.collection("doctors").doc(doctorId).get();
-        const doctorIdData = doctorIdDoc.data();
 
         const qrtext = `${inviteId}-${doctorId}`;
         QRCode.toDataURL(qrtext).then(setSrc);
     }, [])
 
-
+    // QR code displayed as an image
     return (
         <div className={classes.root}>
             <h1 className={classes.header}>
