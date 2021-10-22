@@ -84,23 +84,6 @@ const ECGLineGraph = ({ title, patientData }) => {
     return moment(date).format("HH:mm:ss:SSS");
   };
 
-  const getXAxes = () => {
-    let xAxes = [];
-
-    if (readingIndex !== -1) {
-      console.log("Readings", readings[readingIndex].data);
-      xAxes = xAxes.concat(
-        readings[readingIndex].data.map((r) => formatDate(r.x))
-      );
-    } else {
-      readings.forEach((minuteReadings) => {
-        xAxes = xAxes.concat(minuteReadings.data.map((r) => formatDate(r.x)));
-      });
-    }
-
-    return xAxes;
-  };
-
   return readings.length > 0 ? (
     <>
       <Typography variant="h5" style={{ marginTop: 10 }}>
