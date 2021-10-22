@@ -68,3 +68,6 @@ Deploy the application to Github Pages
 ```
 yarn deploy
 ```
+# Version Strategy
+Though not yet implemented, we suggest using [Semantic Versioning 2.0.0](https://semver.org/) with the version number being represented 
+by MAJOR.MINOR.PATCH. Where an increment is made to the respective version depending on the type of change being made.
