@@ -24,9 +24,6 @@ export const Canvas = () => {
     <main className={classes.content}>
       <Toolbar />
       <Switch>
-        <Route exact path="/">
-          <DashboardAnalytics />
-        </Route>
         <Route exact path="/patients">
           <PatientLister />
         </Route>
