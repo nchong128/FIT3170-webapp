@@ -71,3 +71,10 @@ yarn deploy
 # Version Strategy
 Though not yet implemented, we suggest using [Semantic Versioning 2.0.0](https://semver.org/) with the version number being represented 
 by MAJOR.MINOR.PATCH. Where an increment is made to the respective version depending on the type of change being made.
+
+# Pull Request Strategy
+```
+1. Break pull requests down into smaller chunks if possible.
+2. Make sure the more complicated blocks of code are well commented.
+3. Make sure to add the necessary details into the commit messages to give more context with what we are working on.
+```
