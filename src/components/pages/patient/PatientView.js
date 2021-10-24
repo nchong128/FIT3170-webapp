@@ -46,9 +46,7 @@ const PatientLister = (props) => {
     useEffect(async () => {
         // Retrieve readings for the date given
         const patientDataDoc = await firestore.collection("patients").doc(data.id).get();
-        console.log(patientDataDoc)
         const patientData = patientDataDoc.data();
-        console.log(patientData)
         setPatientInfo({
             dateOfBirth: patientData.dateOfBirth.toDate().toISOString().substring(0, 10),
             email: patientData.email,

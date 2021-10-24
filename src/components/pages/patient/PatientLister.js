@@ -15,7 +15,7 @@ const PatientLister = () => {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    const tempData = [];
+    const patientList = [];
     firestore
       .collection(`/doctors/${currentUser.uid}/linkedPatients`)
       .get()
@@ -23,13 +23,14 @@ const PatientLister = () => {
           console.log(querySnapshot)
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
-          //console.log(doc.id, " => ", doc.data());
+          // set the fields for the current patient
           let currentPatient = {...doc.data(), id:doc.id}
+          // convert timestamp to formatted ISO String
           currentPatient.dateOfBirth = currentPatient.dateOfBirth.toDate().toISOString().substring(0, 10)
-          tempData.push(currentPatient);
-        //   console.log(doc.id, " => ", doc.data())
+          // add patient to list
+          patientList.push(currentPatient);
         });
-        setTableData(tempData);
+        setTableData(patientList);
       });
 
   }, []);
